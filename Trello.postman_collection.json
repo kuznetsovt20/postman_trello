@@ -1,0 +1,223 @@
+{
+	"info": {
+		"_postman_id": "c516e416-02a5-499e-931c-51765c70fb05",
+		"name": "Trello",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18656653"
+	},
+	"item": [
+		{
+			"name": "Get all boards",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/1/members/me/boards?key={{key}}&token={{token}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"1",
+						"members",
+						"me",
+						"boards"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get lists on a board",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response = pm.response.json();",
+							"",
+							"pm.test(\"Practice test\", function(){",
+							"    pm.expect(\"one\").to.be.oneOf([\"one\", \"two\"]);    ",
+							"});",
+							"",
+							"pm.test(\"Property Closed must be False\", function(){",
+							"",
+							"for (let item of response){",
+							"    console.log(item.hasOwnProperty(\"id\"));",
+							"}",
+							"console.log(response);",
+							"pm.expect(response[1].closed).to.eql(false, \"my comment here\");",
+							"",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/1/boards/:id/lists?key={{key}}&token={{token}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"1",
+						"boards",
+						":id",
+						"lists"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "6302ed9460ec9b00e8a7585b"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a new list (random name)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"name\", getRandomName());",
+							"",
+							"function getRandomName(){",
+							"    let name = \"List name \" + parseInt(Math.random()*10000);",
+							"    console.log(\"New list name is: \" + name);",
+							"    return name;",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/1/lists/?key={{key}}&token={{token}}&idBoard=6302ed9460ec9b00e8a7585b&name={{name}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"1",
+						"lists",
+						""
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						},
+						{
+							"key": "idBoard",
+							"value": "6302ed9460ec9b00e8a7585b"
+						},
+						{
+							"key": "name",
+							"value": "{{name}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a new card (random name)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"name\", getRandomName());",
+							"",
+							"function getRandomName(){",
+							"    let name = \"Card name here \" + parseInt(Math.random()*10000);",
+							"    console.log(\"Text on card is: \" + name);",
+							"    return name;",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/1/cards/?key={{key}}&token={{token}}&idList=632bb4784de38b006284e2c0&name={{name}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"1",
+						"cards",
+						""
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						},
+						{
+							"key": "idList",
+							"value": "632bb4784de38b006284e2c0"
+						},
+						{
+							"key": "name",
+							"value": "{{name}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "https://api.trello.com"
+		},
+		{
+			"key": "key",
+			"value": "956146a89d4f1e24296dc06d4508ec76"
+		},
+		{
+			"key": "token",
+			"value": "8dc2faa38555b537ea9e2df8cf59cd56a6948a850c56a3cff390babef3e45c38"
+		}
+	]
+}
